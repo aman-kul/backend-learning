@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { registerUser, userlogin, userLogout } from "../controllers/user.controller.js";
+import { refreshAccessToken, registerUser, userlogin, userLogout } from "../controllers/user.controller.js";
 import { upload } from '../middlewares/multer.middleware.js'
 import { verifiyJWT } from "../middlewares/auth.middleware.js";
-const route = Router();
+const router = Router();
 
 
-route.route("/register").post(
+router.route("/register").post(
     upload.fields([
         {
             name: "avatar",
@@ -19,8 +19,9 @@ route.route("/register").post(
     registerUser
 );
 
-route.route("/login").post(userlogin);
+router.route("/login").post(userlogin);
 
-route.route("/logout").post(verifiyJWT, userLogout);
+router.route("/logout").post(verifiyJWT, userLogout);
+router.route("/refresh-token").post(refreshAccessToken)
 
-export default route;
+export default router;
